@@ -3,7 +3,7 @@
 <!-- [Slides](https://drive.google.com/open?id=1BSzGYNLMgtHD4HRnK7f0DgyTv4Pg3xsQwD_eYNo7v0Y) -->
 
 # CSS to the rescue
-> A not so standard e-commerce website
+> Exploring the awesomeness of CSS in a not so standard e-commerce website
 
 ## Installation
 ```bash
