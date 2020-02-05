@@ -1,0 +1,15 @@
+{
+  "name": "css-to-the-rescue-1920",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:kriskuiper/css-to-the-rescue-1920.git",
+  "author": "Kris <kriskuiper74@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "sirv docs --port 7071 --single --dev"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "sirv-cli": "^0.4.5"
+  }
+}
