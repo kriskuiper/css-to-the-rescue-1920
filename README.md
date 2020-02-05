@@ -20,6 +20,9 @@ yarn dev / npm run dev
 ## Features
 Only awesomeness
 
+## Contraints while building this project
+Add constraints
+
 ## Project wishlist
 My wishlist
 
