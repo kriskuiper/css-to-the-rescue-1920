@@ -1,0 +1,61 @@
+:root {
+    --spacing-large: 4rem;
+    --spacing-default: 2rem;
+    --spacing-small: 1rem;
+
+    --font-size-small: 1.25rem;
+    --font-size-default: 2rem;
+    --font-size-large: 4rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-size: var(--font-size-small);
+}
+
+header {
+    --app-header-height: 50px;
+
+    height: var(--app-header-height);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 1rem;
+}
+
+header > input {
+    position: absolute;
+    transform: translateX(-9999px)
+}
+
+header > nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    overflow: hidden;
+    background: black;
+    z-index: 99;
+    transition: all .4s ease-in-out;
+    clip-path: circle(0px at 100% 0px);
+}
+
+header > label {
+    z-index: 100;
+}
+
+header > input:checked + nav {
+    clip-path: circle(100% at 100% 0px);
+}
+
+h1 {
+    padding: 1rem;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    font-size: 4rem;
+    color: black;
+}
