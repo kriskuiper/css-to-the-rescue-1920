@@ -9,9 +9,9 @@
 }
 
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 body {
@@ -34,28 +34,110 @@ header > input {
 }
 
 header > nav {
+    --nav-faster-duration: .6s;
+    --nav-transition-duration: .8s;
+    --nav-delayed-duration: 1s;
+
     position: fixed;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     top: 0;
     right: 0;
+    width: 100%;
+    height: 100vh;
     overflow: hidden;
     background: black;
     z-index: 99;
-    transition: all .4s ease-in-out;
+    transition: all var(--nav-transition-duration) ease-in-out;
     clip-path: circle(0px at 100% 0px);
 }
 
 header > label {
+    transition: .8s ease-in-out;
     z-index: 100;
 }
 
 header > input:checked + nav {
-    clip-path: circle(100% at 100% 0px);
+    clip-path: circle(300vw at 100% 0px);
+    width: 100%;
+    height: 100vh;
+}
+
+header > input:checked + nav + label {
+    color: white;
+}
+
+header nav li {
+    transition: all var(--nav-faster-duration) ease-in-out;
+    opacity: 0;
+    transform: translateY(-5px);
+    font-size: var(--font-size-large);
+}
+
+header nav li > a {
+    text-decoration: none;
+    display: block;
+    padding: 1rem 0;
+    color: white;
+}
+
+header > input:checked + nav li {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+header > input:checked + nav li:nth-child(1) {
+    transition-delay: var(--nav-faster-duration);
+}
+
+header > input:checked + nav li:nth-child(2) {
+    transition-delay: var(--nav-transition-duration);
+}
+
+header > input:checked + nav li:nth-child(3) {
+    transition-delay: var(--nav-delayed-duration);
 }
 
 h1 {
     padding: 1rem;
     border-top: 1px solid black;
     border-bottom: 1px solid black;
-    font-size: 4rem;
+    margin-bottom: 50px;
+    font-size: calc(8vw + var(--font-size-default));
     color: black;
+}
+
+/* Product list and card styling */
+body > div {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: var(--spacing-small);
+}
+
+/*
+    Using a fixed-ratio / padding bottom hack to make
+    images scale in a very nice way.
+
+    Source is from De Voorhoede:
+*/
+body > div > article picture {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    background: lightgrey;
+
+    /* 1 by 1 ratio */
+    padding-bottom: 100%;
+}
+
+body > div > article picture > img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-width: inherit;
+    object-fit: cover;
 }
