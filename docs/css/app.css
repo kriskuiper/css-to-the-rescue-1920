@@ -212,10 +212,10 @@ body > p > span:after {
 
 @keyframes backward-infinite {
     0% {
-        transform: translate3D(0, 0, 0);
+        transform: translateX(0);
     }
 
     100% {
-        transform: translate3D(calc(-100% / 3 - .333333em) , 0, 0);
+        transform: translateX(calc(-100% / 3));
     }
 }
