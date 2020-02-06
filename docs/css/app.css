@@ -16,6 +16,7 @@
 
 body {
     font-size: var(--font-size-small);
+    font-family: Arial, Helvetica, sans-serif
 }
 
 header {
@@ -114,23 +115,57 @@ body > div {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     grid-gap: var(--spacing-small);
+    padding: 0 var(--spacing-small);
+}
+
+body > div > article {
+    position: relative;
+    box-shadow: 1px 4px 6px rgba(0, 0, 0, .3);
+    margin: 20px;
+    align-self: start;
+}
+
+body > div > article h2,
+body > div > article p {
+    position: absolute;
+}
+
+body > div > article h2 {
+    top: 0;
+    left: 0;
+}
+
+body > div > article p {
+    bottom: 0;
+    right: 0;
+}
+
+body > div > article:nth-child(2n + 2) {
+    transform: rotate(-5deg);
+    margin: 20px;
+}
+
+body > div > article:nth-child(3n + 3) {
+    transform: rotate(5deg);
+    margin: 20px;
 }
 
 /*
-    Using a fixed-ratio / padding bottom hack to make
-    images scale in a very nice way.
+    Use a fixed ratio to prevent image reflow when images are
+    loading:
 
-    Source is from De Voorhoede:
+    https://www.voorhoede.nl/en/blog/say-no-to-image-reflow/
 */
 body > div > article picture {
     position: relative;
     display: block;
     overflow: hidden;
-    background: lightgrey;
+    background: white;
 
     /* 1 by 1 ratio */
     padding-bottom: 100%;
 }
+
 
 body > div > article picture > img {
     position: absolute;
@@ -140,4 +175,47 @@ body > div > article picture > img {
     height: 100%;
     max-width: inherit;
     object-fit: cover;
+}
+
+/* Horizontal text thingies */
+body > p {
+    display: flex;
+    overflow: hidden;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    padding: var(--spacing-small) 0;
+    font-size: 10vw;
+}
+
+body > p > span {
+    --text-margin: .325em;
+
+    display: block;
+    white-space: nowrap;
+    animation: backward-infinite 6s linear infinite;
+    will-change: transform;
+}
+
+body > p:hover {
+    background: black;
+    color: white;
+}
+
+body > p:hover > span {
+    animation-play-state: paused !important;
+}
+
+body > p > span:before,
+body > p > span:after {
+    content: attr(data-text);
+}
+
+@keyframes backward-infinite {
+    0% {
+        transform: translate3D(0, 0, 0);
+    }
+
+    100% {
+        transform: translate3D(calc(-100% / 3 - .333333em) , 0, 0);
+    }
 }
