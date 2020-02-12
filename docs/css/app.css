@@ -3,6 +3,7 @@
     --spacing-default: 2rem;
     --spacing-small: 1rem;
 
+    --font-size-tiny: 0.865rem;
     --font-size-small: 1.25rem;
     --font-size-default: 2rem;
     --font-size-large: 4rem;
@@ -16,25 +17,32 @@
 
 body {
     font-size: var(--font-size-small);
-    font-family: Arial, Helvetica, sans-serif
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: default;
+    overflow-x: hidden;
 }
 
 header {
-    --app-header-height: 50px;
+    display: flex;
+    padding: 1rem;
+    z-index: 999;
+}
 
-    height: var(--app-header-height);
+header > div {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding: 0 1rem;
+    padding: 0 var(--spacing-small);
+    border-left: 1px solid;
+    border-right: 1px solid;
 }
 
-header > input {
+header > div > input {
     position: absolute;
     transform: translateX(-9999px)
 }
 
-header > nav {
+header > div > nav {
     --nav-faster-duration: .6s;
     --nav-transition-duration: .8s;
     --nav-delayed-duration: 1s;
@@ -55,74 +63,118 @@ header > nav {
     clip-path: circle(0px at 100% 0px);
 }
 
-header > label {
+header > div > label {
     transition: .8s ease-in-out;
     z-index: 100;
+    transform: rotate(-90deg);
+    font-size: var(--font-size-tiny);
 }
 
-header > input:checked + nav {
+header > div > input:checked + nav {
     clip-path: circle(300vw at 100% 0px);
     width: 100%;
     height: 100vh;
 }
 
-header > input:checked + nav + label {
+header > div > input:focus + nav + label {
+    outline: 10px solid black;
+}
+
+header > div > input:checked + nav + label {
     color: white;
 }
 
-header nav li {
+header > div > nav li {
     transition: all var(--nav-faster-duration) ease-in-out;
     opacity: 0;
     transform: translateY(-5px);
     font-size: var(--font-size-large);
 }
 
-header nav li > a {
+header > div > nav li > a {
     text-decoration: none;
     display: block;
     padding: 1rem 0;
     color: white;
 }
 
-header > input:checked + nav li {
+header > div > input:checked + nav li {
     opacity: 1;
     transform: translateY(0);
 }
 
-header > input:checked + nav li:nth-child(1) {
+header > div > input:checked + nav li:nth-child(1) {
     transition-delay: var(--nav-faster-duration);
 }
 
-header > input:checked + nav li:nth-child(2) {
+header > div > input:checked + nav li:nth-child(2) {
     transition-delay: var(--nav-transition-duration);
 }
 
-header > input:checked + nav li:nth-child(3) {
+header > div > input:checked + nav li:nth-child(3) {
     transition-delay: var(--nav-delayed-duration);
 }
 
 h1 {
-    padding: 1rem;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
     margin-bottom: 50px;
     font-size: calc(8vw + var(--font-size-default));
-    color: black;
+    font-weight: 500;
+    flex-grow: 1;
+    color: rgb(255, 0, 0);
+    animation: rgb 7s ease-in-out infinite;
+}
+
+h1,
+h1::before,
+h1::after {
+    mix-blend-mode: lighten;
+    transition: .4s ease-in-out;
+}
+
+h1:hover,
+h1:hover::before,
+h1:hover::after {
+    animation-duration: 3s;
+}
+
+h1::before,
+h1::after {
+    position: absolute;
+    content: attr(data-text);
+}
+
+h1:before {
+    top: 5px;
+    left: 5px;
+    color: rgb(0, 0, 255);
+    animation: brg 7s ease-in-out infinite;
+}
+
+h1:after {
+    top: 10px;
+    left: 10px;
+    color: rgb(0, 255, 0);
+    animation: gbr 7s ease-in-out infinite;
 }
 
 /* Product list and card styling */
 body > div {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     grid-gap: var(--spacing-small);
     padding: 0 var(--spacing-small);
 }
 
 body > div > article {
     position: relative;
-    box-shadow: 1px 4px 6px rgba(0, 0, 0, .3);
+    display: block;
+    border: 1px solid black;
     margin: 20px;
     align-self: start;
+}
+
+body > div > article:focus {
+    outline: 10px solid black;
 }
 
 body > div > article h2,
@@ -131,22 +183,48 @@ body > div > article p {
 }
 
 body > div > article h2 {
-    top: 0;
-    left: 0;
+    top: var(--spacing-small);
+    left: var(--spacing-small);
+    font-size: var(--font-size-small);
 }
 
 body > div > article p {
-    bottom: 0;
-    right: 0;
+    bottom: var(--spacing-small);
+    right: var(--spacing-small);
+    font-size: var(--font-size-small);
+    transition: transform .5s cubic-bezier(0.6, -0.28, 0.735, 0.045)
 }
 
-body > div > article:nth-child(2n + 2) {
-    transform: rotate(-5deg);
+body > div > article:nth-child(1n) {
     margin: 20px;
 }
 
-body > div > article:nth-child(3n + 3) {
-    transform: rotate(5deg);
+body > div > article:nth-child(1n):focus {
+    will-change: transform;
+    animation: drop 4s ease-in-out;
+}
+
+body > div > article:nth-child(2n) {
+    transition: transform .7s cubic-bezier(0.68, -0.55, 0.03, 1.96);
+    transform-origin: top left;
+    transform: rotate(3deg);
+    margin: 20px;
+}
+
+body > div > article:nth-child(2n):hover {
+    transform: rotate(40deg);
+}
+
+body > div > article:nth-child(3n) {
+    transition: transform .7s cubic-bezier(.74,.23,.65,1.95);
+    transform-origin: bottom right;
+    transform: rotate(16deg);
+    margin: 20px;
+}
+
+body > div > article:nth-child(3n):hover {
+    transition: transform .7s cubic-bezier(0.68, -0.55, 0.03, 1.96);
+    transform: rotate(-5deg);
     margin: 20px;
 }
 
@@ -175,6 +253,13 @@ body > div > article picture > img {
     height: 100%;
     max-width: inherit;
     object-fit: cover;
+    filter: blur(20px);
+    transition: .4s ease-in-out;
+}
+
+body > div > article:hover picture > img,
+body > div > article:focus picture > img {
+    filter: blur(0)
 }
 
 /* Marquee-ish text styles */
@@ -185,6 +270,7 @@ body > p {
     border-bottom: 1px solid black;
     padding: var(--spacing-small) 0;
     font-size: 10vw;
+    background: white;
 }
 
 body > p > span {
@@ -224,3 +310,72 @@ body > p > span:after {
     }
 }
 
+@keyframes rgb {
+    0% {
+        color: rgb(255, 0, 0)
+    }
+
+    33.33333333333% {
+        color: rgb(0, 255, 0)
+    }
+
+    66.6666666666% {
+        color: rgb(0, 0, 255)
+    }
+
+    100% {
+        color: rgb(255, 0, 0)
+    }
+}
+
+@keyframes brg {
+    0% {
+        color: rgb(0, 0, 255)
+    }
+
+    33.33333333333% {
+        color: rgb(255, 0, 0)
+    }
+
+    66.6666666666% {
+        color: rgb(0, 255, 0)
+    }
+
+    100% {
+        color: rgb(0, 0, 255)
+    }
+}
+
+@keyframes gbr {
+    0% {
+        color: rgb(0, 255, 0)
+    }
+
+    33.33333333333% {
+        color: rgb(0, 0, 255)
+    }
+
+    66.6666666666% {
+        color: rgb(255, 0, 0)
+    }
+
+    100% {
+        color: rgb(0, 255, 0)
+    }
+}
+
+@keyframes drop {
+    0% {
+        transform-origin: top left;
+    }
+
+    30% {
+        transform: rotate(40deg);
+        transition: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    60% {
+        transform-origin: bottom left;
+        transform: rotate(80deg) translateY(100px);
+    }
+}
