@@ -115,6 +115,32 @@ header > div > input:checked + nav li:nth-child(3) {
     transition-delay: var(--nav-delayed-duration);
 }
 
+@media (orientation: portrait) {
+    header {
+        flex-direction: column;
+    }
+
+    header > div {
+        border-left: none;
+        border-right: none;
+        border-top: 1px solid;
+        border-bottom: 1px solid;
+        padding: var(--spacing-small);
+    }
+
+    header > div > label {
+        transform: rotate(0);
+    }
+}
+
+@media (pointer: none) {
+    /*
+        User uses touching device, place menu button in reach and
+        make nav do things from bottom
+    */
+}
+
+/* Title styling */
 h1 {
     margin-bottom: 50px;
     font-size: calc(8vw + var(--font-size-default));
