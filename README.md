@@ -31,7 +31,8 @@ During this project I tried to implement the following constraints:
 ## My process and experiments
 At first I started out with an e-commerce concept which is displayed below:
 
-![Image]()
+![First concept, menu closed](assets/css-first-design-2.png)
+![First concept, menu open](assets/css-first-design.png)
 
 With this concept I found out that I was just focussing too much on the concept itself rather than experimenting with CSS as much as I would or could do in these three weeks.
 
