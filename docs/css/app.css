@@ -22,6 +22,7 @@ body {
     overflow-x: hidden;
 }
 
+/* Old header styles, just for showing purposes so that I can verify that I've build it like this */
 header {
     display: flex;
     padding: 1rem;
@@ -57,14 +58,13 @@ header > div > nav {
     width: 100%;
     height: 100vh;
     overflow: hidden;
-    background: black;
+    background: rgb(0, 0, 255);
     z-index: 99;
     transition: all var(--nav-transition-duration) ease-in-out;
     clip-path: circle(0px at 100% 0px);
 }
 
-header > div > label {
-    transition: .8s ease-in-out;
+header > ul > li {
     z-index: 100;
     transform: rotate(-90deg);
     font-size: var(--font-size-tiny);
@@ -76,11 +76,7 @@ header > div > input:checked + nav {
     height: 100vh;
 }
 
-header > div > input:focus + nav + label {
-    outline: 10px solid black;
-}
-
-header > div > input:checked + nav + label {
+header > div > input:checked ~ label {
     color: white;
 }
 
@@ -115,30 +111,13 @@ header > div > input:checked + nav li:nth-child(3) {
     transition-delay: var(--nav-delayed-duration);
 }
 
-@media (orientation: portrait) {
-    header {
-        flex-direction: column;
-    }
-
-    header > div {
-        border-left: none;
-        border-right: none;
-        border-top: 1px solid;
-        border-bottom: 1px solid;
-        padding: var(--spacing-small);
-    }
-
-    header > div > label {
-        transform: rotate(0);
-    }
-}
-
 @media (pointer: none) {
     /*
         User uses touching device, place menu button in reach and
         make nav do things from bottom
     */
 }
+/* === End old header styles === */
 
 /* Title styling */
 h1 {
@@ -147,261 +126,214 @@ h1 {
     font-weight: 500;
     flex-grow: 1;
     color: rgb(255, 0, 0);
-    animation: rgb 7s ease-in-out infinite;
-}
-
-h1,
-h1::before,
-h1::after {
-    mix-blend-mode: lighten;
-    transition: .4s ease-in-out;
-}
-
-h1:hover,
-h1:hover::before,
-h1:hover::after {
-    animation-duration: 3s;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: rgb(2, 2, 2);
 }
 
 h1::before,
 h1::after {
     position: absolute;
+
+    /* 
+        Awesome! I didn't know I could reference a data attribute in css and use it for the content of a
+        before and after. Now it reads just as one string for a screen reader for example while other users
+        can see the cool effect :D
+    */
     content: attr(data-text);
 }
 
 h1:before {
-    top: 5px;
-    left: 5px;
+    top: 20px;
+    left: 20px;
     color: rgb(0, 0, 255);
-    animation: brg 7s ease-in-out infinite;
 }
 
 h1:after {
-    top: 10px;
-    left: 10px;
+    top: 25px;
+    left: 25px;
     color: rgb(0, 255, 0);
-    animation: gbr 7s ease-in-out infinite;
 }
 
-/* Product list and card styling */
 body > div {
+    overflow: hidden;
+}
+
+body > div > div {
+    margin: -0.5vw
+}
+
+body > div > div {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    grid-gap: var(--spacing-small);
-    padding: 0 var(--spacing-small);
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-auto-rows: 100px;
+    padding: 0;
+    grid-auto-flow: dense;
+    list-style: none;
+    /* Avoids breaking the layout to fit on next page */
+    page-break-after: avoid;
+    page-break-before: avoid;
+    page-break-inside: avoid;
 }
 
-body > div > article {
-    position: relative;
-    display: block;
-    border: 1px solid black;
-    margin: 20px;
-    align-self: start;
+input[type="checkbox"] {
+    display: none;
+    /* Avoids breaking the layout to fit on next page */
+    page-break-after: avoid;
+    page-break-before: avoid;
+    page-break-inside: avoid;
 }
 
-body > div > article:focus {
-    outline: 10px solid black;
-}
-
-body > div > article h2,
-body > div > article p {
-    position: absolute;
-}
-
-body > div > article h2 {
-    top: var(--spacing-small);
-    left: var(--spacing-small);
-    font-size: var(--font-size-small);
-}
-
-body > div > article p {
-    bottom: var(--spacing-small);
-    right: var(--spacing-small);
-    font-size: var(--font-size-small);
-    transition: transform .5s cubic-bezier(0.6, -0.28, 0.735, 0.045)
-}
-
-body > div > article:nth-child(1n) {
-    margin: 20px;
-}
-
-body > div > article:nth-child(1n):focus {
-    will-change: transform;
-    animation: drop 4s ease-in-out;
-}
-
-body > div > article:nth-child(2n) {
-    transition: transform .7s cubic-bezier(0.68, -0.55, 0.03, 1.96);
-    transform-origin: top left;
-    transform: rotate(3deg);
-    margin: 20px;
-}
-
-body > div > article:nth-child(2n):hover {
-    transform: rotate(40deg);
-}
-
-body > div > article:nth-child(3n) {
-    transition: transform .7s cubic-bezier(.74,.23,.65,1.95);
-    transform-origin: bottom right;
-    transform: rotate(16deg);
-    margin: 20px;
-}
-
-body > div > article:nth-child(3n):hover {
-    transition: transform .7s cubic-bezier(0.68, -0.55, 0.03, 1.96);
-    transform: rotate(-5deg);
-    margin: 20px;
+body > div > div > input[type="checkbox"] + label {
+    border: 0.5vw solid black;
 }
 
 /*
-    Use a fixed ratio to prevent image reflow when images are
-    loading:
+    Using :nth-of-type() because it's less of a struggle with your mind here.
+    1st, 3rd, 5th element is a checkbox instead of just 1st, 2nd, 3rd etc.
 
-    https://www.voorhoede.nl/en/blog/say-no-to-image-reflow/
+    Also using the cicada principle to create some pseudo randomness:
+    https://www.lottejackson.com/learning/nth-child-cicada-principle
 */
-body > div > article picture {
-    position: relative;
-    display: block;
-    overflow: hidden;
-    background: white;
 
-    /* 1 by 1 ratio */
-    padding-bottom: 100%;
+body > div > div > input[type="checkbox"]:nth-of-type(2n + 1) + label {
+    grid-column: span 2;
+    grid-row: span 1;
 }
 
-
-body > div > article picture > img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    max-width: inherit;
-    object-fit: cover;
-    filter: blur(20px);
-    transition: .4s ease-in-out;
+body > div > div > input[type="checkbox"]:nth-of-type(2n + 1):checked + label {
+    grid-column: span 3;
+    grid-row: span 4;
 }
 
-body > div > article:hover picture > img,
-body > div > article:focus picture > img {
-    filter: blur(0)
+body > div > div > input[type="checkbox"]:nth-of-type(3n + 2) + label {
+    grid-column: span 1;
+    grid-row: span 2;
+    background: rgb(20, 20, 20);
 }
 
-/* Marquee-ish text styles */
+body > div > div > input[type="checkbox"]:nth-of-type(3n + 2):checked + label {
+    grid-column: span 1;
+    grid-row: span 1;
+    background: rgb(20, 20, 20);
+}
+
+body > div > div > input[type="checkbox"]:nth-of-type(5n + 3) + label {
+    grid-column: span 2;
+    grid-row: span 1;
+    background: rgb(255, 0, 0);
+}
+
+body > div > div > input[type="checkbox"]:nth-of-type(5n + 3):checked + label {
+    grid-column: span 2;
+    grid-row: span 3;
+    background: rgb(255, 0, 0);
+}
+
+body > div > div > input[type="checkbox"]:nth-of-type(7n + 5) + label {
+    grid-column: span 2;
+    grid-row: span 2;
+    background: rgb(0, 255, 0);
+}
+
+body > div > div > input[type="checkbox"]:nth-of-type(7n + 5):checked + label {
+    grid-column: span 1;
+    grid-row: span 2;
+    background: rgb(0, 255, 0);
+}
+
+body > div > div input[type="checkbox"]:nth-of-type(11n + 9) + label {
+    grid-column: span 3;
+    grid-row: span 3;
+    background: rgb(0, 0, 255);
+}
+
+body > div > div input[type="checkbox"]:nth-of-type(11n + 9):checked + label {
+    grid-column: span 2;
+    grid-row: span 1;
+    background: rgb(0, 0, 255);
+}
+
+/* Button styles */
 body > p {
-    display: flex;
-    overflow: hidden;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
-    padding: var(--spacing-small) 0;
-    font-size: 10vw;
-    background: white;
+    position: fixed;
+    right: var(--spacing-small);
+    bottom: var(--spacing-small);
 }
 
 body > p > span {
-    --text-margin: .325em;
+    display: none;
+    font-size: var(--font-size-tiny);
+    width: 30rem;
+    background: yellow;
+    padding: var(--spacing-small);
+    margin-bottom: 1rem;
+}
 
-    display: block;
-    white-space: nowrap;
-    animation: backward-infinite 8s linear infinite;
-    will-change: transform;
+body > p > button {
+    border: 0;
+    padding: var(--spacing-small) var(--spacing-default);
+    font-size: var(--font-size-small);
+    background: yellow;
+    position: relative;
+    z-index: 0;
+    overflow: hidden;
+}
+
+body > p > button:after {
+    top: 0;
+    left: -25%;
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 150%;
+    background: red;
+    z-index: -1;
+    transform: translateX(-100%);
+    transition: transform .3s ease-in-out
+}
+
+body > p > button:hover:after {
+    transform: translateX(0);
 }
 
 body > p:hover {
-    background: black;
-    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
 body > p:hover > span {
-    animation-play-state: paused !important;
+    display: block;
 }
 
-body > p > span:before,
-body > p > span:after {
-    content: attr(data-text);
+body > p ~ p {
+    display: none;
+    font-size: var(--font-size-small);
+    background: yellow;
+    padding: var(--spacing-small);
 }
 
-@keyframes backward-infinite {
-    0% {    
-        transform: translateX(0);
+
+@media print {
+    /* Remove unecessary sections */
+    body > header,
+    body > p {
+        display: none !important;
     }
 
-    100% {
-        /*
-            Because of letter spacing we have to do this
-            arbitrary calculation.
-        */
-        transform: translateX(calc(-100% / 3 - 1.7vw));
-    }
+    /* Use page-break or something to avoid breaking the page */
 }
 
-@keyframes rgb {
-    0% {
-        color: rgb(255, 0, 0)
-    }
-
-    33.33333333333% {
-        color: rgb(0, 255, 0)
-    }
-
-    66.6666666666% {
-        color: rgb(0, 0, 255)
-    }
-
-    100% {
-        color: rgb(255, 0, 0)
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
     }
 }
 
-@keyframes brg {
-    0% {
-        color: rgb(0, 0, 255)
-    }
+/* @media (pointer: none) {
 
-    33.33333333333% {
-        color: rgb(255, 0, 0)
+    body > p ~ p {
+        display: block !important;
     }
-
-    66.6666666666% {
-        color: rgb(0, 255, 0)
-    }
-
-    100% {
-        color: rgb(0, 0, 255)
-    }
-}
-
-@keyframes gbr {
-    0% {
-        color: rgb(0, 255, 0)
-    }
-
-    33.33333333333% {
-        color: rgb(0, 0, 255)
-    }
-
-    66.6666666666% {
-        color: rgb(255, 0, 0)
-    }
-
-    100% {
-        color: rgb(0, 255, 0)
-    }
-}
-
-@keyframes drop {
-    0% {
-        transform-origin: top left;
-    }
-
-    30% {
-        transform: rotate(40deg);
-        transition: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    60% {
-        transform-origin: bottom left;
-        transform: rotate(80deg) translateY(100px);
-    }
-}
+} */
