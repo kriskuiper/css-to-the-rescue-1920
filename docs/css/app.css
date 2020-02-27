@@ -354,9 +354,13 @@ body > p:hover > span {
     }
 }
 
-/* @media (pointer: none) {
+@media (pointer: none) {
+    /*
+        You can't really print things from your phone, right?
 
-    body > p ~ p {
-        display: block !important;
+        Also it is very hard for the user to see the whole picture when on mobile.
+    */
+    body > p {
+        display: none;
     }
-} */
+}
