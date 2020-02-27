@@ -53,7 +53,8 @@ Besides that I also will write fewer unecessary JavaScript (hence the aforementi
 - There's no such thing as `grid-gap-color` unfortunately 🥺;
 - Killing your darlings really helps you to rethink your project and come up with something creative and awesome;
 - Before I didn't know print stylesheets were a thing, although I've used the print media query and not a seperate print stylesheet;
-- You can create pseudo-randomness in CSS using the `nth-of-type(1n + 1)... | nth-child(2n + 1)...` selector and the *cicada principle* which is explained in CSS comments in my code.
+- You can create pseudo-randomness in CSS using the `nth-of-type(1n + 1)... | nth-child(2n + 1)...` selector and the *cicada principle* which is explained in CSS comments in my code;
+- Using `hsl` as color notation makes it easier to create colors yourself when you've wrapped your head around how it works, in my head it is a lot easier to reason about than using `rgb` or hash-notation.
 
 ## Project wishlist
 If I had more time I would like to experiment some more doing the following things:
