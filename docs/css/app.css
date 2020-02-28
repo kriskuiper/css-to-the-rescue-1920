@@ -284,6 +284,7 @@ body > p {
     right: var(--spacing-small);
     bottom: var(--spacing-small);
     transition: color .4s ease-in-out;
+    display: block;
 }
 
 body > p > span {
@@ -354,7 +355,7 @@ body > p:hover > span {
     }
 }
 
-@media (pointer: none) {
+@media (pointer: coarse) {
     /*
         You can't really print things from your phone, right?
 
